@@ -1,11 +1,12 @@
 import React, {Suspense, lazy} from "react"
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import PageLoader from "./components/PageLoader"
-import Dashbaord from "./pages/Dashboard"
+import Dashboard from "./pages/Dashboard"
 const Intro = lazy(()=> import("./pages/Intro"))
 const Login = lazy(()=> import("./pages/Login"))
 const Register = lazy(()=> import("./pages/Register"))
 import {Toaster} from "react-hot-toast"
+import IntroPage from "./pages/IntroPage"
 const App = ()=>
 {
 
@@ -16,6 +17,7 @@ const App = ()=>
     <Router>
       <Routes>
 
+
     <Route path="/" element={
       <Suspense fallback={<PageLoader message="Loading Welcome Page" />} >  <Intro/>  </Suspense>
     }> </Route> 
@@ -24,7 +26,7 @@ const App = ()=>
       <Suspense fallback={<PageLoader message="Preparing to Login" />}>   <Login/>  </Suspense>
     }> </Route>
     <Route path="/dashboard" element= {
-      <Suspense fallback={<PageLoader message="Fecthing tasks from server"/>}><Dashbaord/></Suspense>
+      <Suspense fallback={<PageLoader message="Fecthing tasks from server"/>}><Dashboard/></Suspense>
     }
     >
     </Route>
@@ -33,8 +35,12 @@ const App = ()=>
       <Suspense fallback={<PageLoader message="Setting up Register" />}>   <Register/>   </Suspense>
     }> </Route>
 
+
       </Routes>
     </Router>
+
+
+    
 </>
          )
 }

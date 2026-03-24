@@ -4,7 +4,7 @@ const AddTask = ({handleAddTask, addTask, setAddTask, setShowToggle})=>
     <>
 {
 <div className="flex justify-center items-center">
-        <form onSubmit={handleAddTask} className="bg-white  max-w-200
+        <form className="bg-white  max-w-200
   w-full p-3 rounded-xl shadow-md mb-8 border-2 border-blue-500">
         <h3 className="text-xl font-bold mb-4">Create New Task</h3>
         <input 
@@ -20,7 +20,7 @@ const AddTask = ({handleAddTask, addTask, setAddTask, setShowToggle})=>
             required
         />
         <div className="flex gap-2">
-            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save Task</button>
+            <button type="button" onClick={()=>{handleAddTask(), setShowToggle(false)}} className="bg-blue-600 text-white px-4 py-2 rounded">Save Task</button>
             <button type="button" onClick={() => setShowToggle(false)} className="text-gray-500">Cancel</button>
         </div>
     </form>
