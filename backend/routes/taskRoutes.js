@@ -16,6 +16,7 @@ router.post("/auth/login", authController.login)
 router.put("/tasks/editTask/:id", protect, taskController.editTask)
 router.post("/reset-password/", sendEmail.sendEmail)
 router.post("/reset-password/request", resetPassword.resetPass)
+router.put("/api/tasks/editTask/:id", protect, taskController.editTask)
 ///my intial approach 
 // router.get("/all", async (req, res)=>
 // {

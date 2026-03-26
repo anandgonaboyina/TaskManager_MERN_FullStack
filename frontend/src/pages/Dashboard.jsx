@@ -5,6 +5,7 @@ import AddTask from "../components/AddTask"
 import {useNavigate} from "react-router-dom"
 import {deleteTask, updateStatus} from "../services/taskServices"
 import toast from "react-hot-toast"
+import NavBar from "../components/NavBar"
 import GetNewQuote from  "../components/Quote"
 const Dashboard = ()=>
 {
@@ -12,22 +13,54 @@ const[loading, setLoading] = useState(false)
 const [tasks, setTasks] = useState([]);
 const [showToggle, setShowToggle] = useState(false)
 const [addTask, setAddTask] = useState({title:"", content:""})
-const [editedTask, setEditedTask] = useState(null);
+const [editingTask, setEditingTask] = useState(false);
 const nagivate = useNavigate();
 
+const handleEditedTask = async (e) => {
+  e.preventDefault()
+  const res = await API.put(`/api/tasks/editTask/${addTask.id}`, {...addTask})
+  if(res.status===200)
+  {
+    console.log(res)
+    setTasks((previousTasks)=> previousTasks.map((task)=>
+    {
+      return task._id ===res.data._id? res.data : task
+    }))
+    toast.success("task edited success")
+  }
+    setShowToggle(false); // Open the form
+};
+
+const handleEditTask = async(task)=>
+{
+  try{
+    setShowToggle(true)
+    setAddTask({id:task._id, title:task.title, content:task.content})  // Fill the inputs
+    setEditingTask(true)
+  }
+  catch(err)
+  {
+    console.log(Err)
+  }
+}
 const handleAddTask = async (e)=>
 {
     try{
+      e.preventDefault()
         const res = await API.post("/api/tasks/add", addTask);
-        console.log(res.data)
-        setTasks([...tasks, res.data])
-        setAddTask([{title:"", content:""}])
+        setTasks((currentTasks) => {
+            const newTask = [res.data, ...currentTasks];
+            return newTask;
+        });
+        setShowToggle(false)
+        setAddTask({title:"", content:""})
     }
     catch(err)
     {
         alert(err.response?.data.message || "failed to create new Task")
     }
 }
+
 const handleDelete = async (taskId) => {
     if (!window.confirm("Are you sure you want to delete this?")) return;
 
@@ -60,16 +93,6 @@ const handleLogout = ()=>
         localStorage.removeItem("token")
         window.location.href = "/login"
 }
-const editTask = async (taskId)=>
-{
-  try{
-      const task = tasks.filter((task)=>task._id===taskId)
-  }
-  catch(err)
-  {
-
-  }
-}
 
 useEffect(()=> {
     const fetchTasks = async ()=>
@@ -95,54 +118,17 @@ fetchTasks()
 
 return (
 <>
+<NavBar
+setEditingTask={setEditingTask}
+setShowToggle={setShowToggle}
+handleLogout={handleLogout}
+> </NavBar>
 
-<nav className="bg-white/70 backdrop-blur-xl rounded-b-3xl overflow-hidden border-b border-gray-200 sticky top-0 z-50">
-  <div className="max-w-screen-xl mx-auto flex items-center justify-between px-5 py-2">
-
-    <div className="flex flex-col justify-center">
-      <div className="flex items-center gap-2">
-        <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="h-7 w-7"
-          alt="Logo"
-        />
-        <span className="text-lg font-semibold text-gray-800">
-          Tasky by Anand
-        </span>
-      </div>
-
-      {/* Quote below */}
-      <div className="text-xs text-gray-500 mt-0.5">
-        <GetNewQuote showRefresh={true} />
-      </div>
-
-    </div>
-
-    <div className="flex items-center gap-1">
-      <button
-        onClick={() => setShowToggle(!showToggle)}
-        className="px-1 py-1.5 text-sm font-small rounded-md 
-        text-gray-700 bg-gray-100 hover:bg-gray-200 
-        transition duration-200"
-      >
-        + Task
-      </button>
-
-      <button
-        onClick={() => { handleLogout() }}
-        className="px-3 py-1.5 text-sm font-small rounded-md 
-        text-white bg-indigo-600 hover:bg-indigo-700 
-        transition duration-200"
-      >
-        Logout
-      </button>
-
-    </div>
-  </div>
-</nav>
 {showToggle && (
 <AddTask
 handleAddTask={handleAddTask}
+editingTask={editingTask}
+handleEditedTask={handleEditedTask}
  addTask = {addTask}
   setAddTask ={setAddTask}
    setShowToggle={setShowToggle} />
@@ -152,13 +138,14 @@ handleAddTask={handleAddTask}
 
 }
 { loading? (<h3>Loading Tasks...</h3>) : (
-    tasks.length > 0 ? ( <div className="flex flex-col items-center justify-center gap-4 p-5 border border-blue-300 rounded-2xl"> {
+    tasks.length > 0 ? ( <div key={"container"} className="min-h-screen flex flex-col items-center justify-center gap-4 p-5 border border-blue-300 rounded-2xl"> {
                             tasks.map((task)=> {
                                 return (
                                 <TaskCard key={task._id} 
                                 task={task}
                                 onDelete={handleDelete}
                                 changeStatus = {handleStatus}
+                                handleEditTask={handleEditTask}
                                 isCompleted= {task.status=="pending"? false:true}
                                   />  )
                                                 } )

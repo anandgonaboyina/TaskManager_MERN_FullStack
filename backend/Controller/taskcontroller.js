@@ -8,7 +8,7 @@ exports.getallTasks = async (req, res, next)=>
         const searchtask = {...req.query};
         if(searchtask.title) 
             searchtask.title = {$regex:searchtask.title}
-        const tasks = await tasksdb.find({user:req.user}).sort({createdAt:-1})              //here in where clause user:user.req added by authmiddlewate so only that user will his tasks only
+        const tasks = await tasksdb.find({user:req.user}).sort({updatedAt:-1})              //here in where clause user:user.req added by authmiddlewate so only that user will his tasks only
         if(tasks.length == 0) return res.send(tasks)
         return res.status(200).send(tasks)
     }
@@ -50,7 +50,6 @@ exports.updateTask = async (req, res, next)=>
             return res.status(404).send("id not found")
         if(task.user.toString() !== req.user)
             return res.status(403).json({message:"Not authorized to update this task"})
-
         const updatedtask = await tasksdb.findByIdAndUpdate(req.params.id, {status : "completed"}, {new:true})
         return res.status(200).json(updatedtask)
     }
@@ -82,11 +81,14 @@ exports.editTask = async (req, res, next)=>
 {
     try
     {
-        const Updatedtask = req.body
-        const task = await tasksdb.find({_id:req.params.id._id, user:req.params.user})
+        console.log(req.params.id)
+        console.log(req.user)
+        const editedtask = req.body
+        const task = await tasksdb.findOne({_id:req.params.id, user:req.user})
         if(task)
-        {  await tasksdb.updateOne({_id:req.body._id}, {Updatedtask})
-           return  res.status(200).json()
+        { const updatedTask = await tasksdb.findByIdAndUpdate(task._id, {...editedtask}, {new:true})
+        console.log(updatedTask)
+           return  res.status(200).json(updatedTask)
         }
         return res.status(401).json({message:"task not found"})
     }
@@ -95,7 +97,6 @@ exports.editTask = async (req, res, next)=>
         next(err)
     }
 }
-
 
 
 exports.register = async (req, res, next)=>
