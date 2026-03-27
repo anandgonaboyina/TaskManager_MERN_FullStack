@@ -71,16 +71,16 @@ const handleSendMail = async (e)=>
   }
     return (
   <>
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
-        <h1 className="text-3xl md:text-5xl font-extrabold text-center text-gray-800 mb-4 px-4">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center  bg-slate-950 p-1">
+        <h1 className="text-center text-blue-500 text-3xl px-3 rounded-lg">
     Tasky for daily productivity, Organize your life Now</h1>
-<form onSubmit={ resetpassform? handleReset:handleSendMail} className="bg-white text-gray-500 max-w-[350px] mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
-  <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">{!resetpassform? "Enter you Email":"Reset password"}</h2>
+<form onSubmit={ resetpassform? handleReset:handleSendMail} className="rounded-3xl border border-white/10 bg-white/5 p-10 shadow-2xl backdrop-blur-xl transition-all hover:border-white/20 text-gray-500 max-w-[350px] mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
+  <h2 className="text-2xl font-semibold mb-6 text-center text-white">{!resetpassform? "Enter you Email":"Reset password"}</h2>
   
 {resetpassform ||  <input 
     id="email" 
     name="email"
-    className="w-full border my-3 border-gray-500/30 outline-none rounded-full py-2.5 px-4 focus:ring-2 focus:ring-indigo-500/20" 
+    className="w-full bg-white border my-3 border-gray-500/30 outline-none rounded-full py-2.5 px-4 focus:ring-2 focus:ring-indigo-500/20" 
     type="email" 
     placeholder="Enter your email" 
     required 

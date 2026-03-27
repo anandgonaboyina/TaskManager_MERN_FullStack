@@ -4,6 +4,7 @@ import AddTask from "../components/AddTask"
 import {useNavigate} from "react-router-dom"
 import * as taskService from "../services/taskServices"
 import toast from "react-hot-toast"
+import axios from "axios"
 import NavBar from "../components/NavBar"
 import GetNewQuote from  "../components/Quote"
 
@@ -81,7 +82,9 @@ const handleStatus = async (taskId)=>
 {
       const res = await taskService.updateStatus(taskId)
       if(res.status===200)
-            toast.success(GetNewQuote ||"you done the task keep going on 👌", {id:taskId, duration:3000})
+         {   
+            const quote = await axios.get(`http://api.quotable.io/random?maxLength=30`)
+            toast.success( quote.data.content ||"you done the task keep going on 👌", {id:taskId, duration:3000})}
         setTasks(prevTasks =>
         {
          return prevTasks.map(task=>task._id != taskId? task: res.data)
@@ -141,7 +144,7 @@ handleEditedTask={handleEditedTask}
 
 }
 { loading? (<h3>Loading Tasks...</h3>) : (
-    tasks.length > 0 ? ( <div key={"container"} className="min-h-screen bg-slate-950 flex flex-col items-start justify-center gap-4 p-5 border border-blue-300 rounded-2xl"> {
+    tasks.length > 0 ? ( <div key={"container"} className="min-h-screen bg-slate-950 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-5"> {
                             tasks.map((task)=> {
                                 return (
                                 <TaskCard key={task._id} 

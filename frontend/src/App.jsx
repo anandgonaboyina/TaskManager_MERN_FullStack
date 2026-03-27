@@ -14,7 +14,12 @@ const App = ()=>
   return (
 <>
 
-    <Toaster position="top-right" reverseOrder={false}
+    <Toaster position="bottom-center" reverseOrder={false}
+     containerStyle={{
+          zIndex: 99999,
+          padding: '1px',
+          height:"auto"
+        }}
      toastOptions={{
     duration: 2000, // 5 seconds for all toasts
   }}
