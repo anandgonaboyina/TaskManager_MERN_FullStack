@@ -1,7 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast"
 
-const API = axios.create({baseURL : "http://localhost:4400"});
+const API = axios.create({baseURL : import.meta.env.VITE_API_URL || "http://localhost:4400/api",
+    withCredentials: true});
 
 API.interceptors.request.use(
     (req)=>
