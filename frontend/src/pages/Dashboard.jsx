@@ -74,7 +74,6 @@ const handleDeleteClick = (taskId) => {
     setIsModalOpen(true);    // Open the Modal
 };
 const handleConfirmDelete = async () => {
-    // if (!window.confirm("Are you sure you want to delete this?")) return;
 
     try {
         const res = await taskService.deleteTask(taskToDelete);
@@ -104,8 +103,7 @@ const handleStatus = async (taskId)=>
 }
 const handleLogout = ()=>
 {
-        // if(!window.confirm("Are you sure want to Logout ?")) return
-        
+        if(!window.confirm("Are you sure want to Logout ?")) return
         localStorage.removeItem("token")
         window.location.href = "/login"
 }
@@ -122,7 +120,7 @@ useEffect(()=> {
         catch(err)
         {
         console.log(err)
-            alert(err.response?.data?.message || "fetch failed")
+            alert(err.response?.data?.message || "fetching tasks failed")
         }
         finally
         {
