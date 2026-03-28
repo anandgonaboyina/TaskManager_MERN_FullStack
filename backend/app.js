@@ -3,17 +3,14 @@ require("dotenv").config()
 const express = require("express");
 const app = express();  
 const cors = require('cors');
-const corsOptions = {
-  origin: [
-    'https://task-manager-mern-full-stack.vercel.app', 
-    'https://task-manager-mern-full-stack-a4ioxpbdl.vercel.app'
-  ],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Required if you are using cookies/sessions
-  optionsSuccessStatus: 200
-};
+const cors = require('cors');
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: '*', 
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
+
 app.use(express.json())                                             // to access body otherwise undifined
 const taskRouter = require("./routes/taskRoutes.js")
 const mongoose = require("mongoose")
