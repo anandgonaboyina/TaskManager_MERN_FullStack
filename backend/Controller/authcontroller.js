@@ -12,10 +12,10 @@ exports.login = async (req, res, next)=>
         if (mongoose.connection.readyState !== 1) {
             return res.status(500).json({ message: "Database connection busy. Try again." });
         }
-        let user = await Users.findOne({email}).maxTimeMS(3000)
+        let user = await Users.findOne({email}).maxTimeMS(5000)
         if(!user)
         {
-                 console.log("from catch ", user)
+                 console.log("no user found ", user)
            return res.status(404).json(
                 {
                     success:false,
