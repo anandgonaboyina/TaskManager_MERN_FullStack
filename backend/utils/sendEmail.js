@@ -53,56 +53,60 @@ exports.sendEmail = async (req, res, next) => {
   }
 };
 
-// render deploy site for backend not allowing smtp service so comment out
+/*
+NOTE: Nodemailer/SMTP is blocked on Render Free Tier (Error: ENETUNREACH).
+Switched to Brevo API (HTTP) to bypass firewall restrictions.
 
-// const nm = require("nodemailer");
-// exports.sendEmail = async (req, res, next) => {
-//   try {
-//     const email = req.body.email;
-//     const user = await Users.findOne({ email });
+render deploy site for backend not allowing smtp service so comment out
+
+const nm = require("nodemailer");
+exports.sendEmail = async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const user = await Users.findOne({ email });
     
-//     if (!user) {
-//       return res.status(400).json({ error: "Provided email is not registered" });
-//     }
-// const transporter = nm.createTransport({
-//   host: 'smtp.gmail.com',
-//   port: 587,
-//   secure: false, 
-//   requireTLS: true,
-//   family: 4, // Forces Nodemailer to use IPv4
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS 
-//   },
-//   tls: {
-//     rejectUnauthorized: false
-//   }
-// });
+    if (!user) {
+      return res.status(400).json({ error: "Provided email is not registered" });
+    }
+const transporter = nm.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, 
+  requireTLS: true,
+  family: 4, // Forces Nodemailer to use IPv4
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS 
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
                                         
-//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "15m" });
     
-//     const options = {
-//       from: process.env.EMAIL_USER,
-//       to: email,
-//       subject: "To Reset Tasky password",
-//       html: `<p>Please reset your password using the following link. This link will expire within 15 minutes.
-//       <br><br>
-//       <a href="https://task-manager-mern-full-stack.vercel.app/reset-password/${token}">Click here to reset password</a>
-//       </p>`
-//     };
+    const options = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "To Reset Tasky password",
+      html: `<p>Please reset your password using the following link. This link will expire within 15 minutes.
+      <br><br>
+      <a href="https://task-manager-mern-full-stack.vercel.app/reset-password/${token}">Click here to reset password</a>
+      </p>`
+    };
 
-//     transporter.sendMail(options, (err, success) => {
-//       if (err) {
-//         console.log(err);
-//         return res.status(500).json({ message: "Server down please try after some time" });
-//       }
-//       return res.status(200).json({ message: "Reset link sent successfully to *****" + email.slice(5) });
-//     });
+    transporter.sendMail(options, (err, success) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Server down please try after some time" });
+      }
+      return res.status(200).json({ message: "Reset link sent successfully to *****" + email.slice(5) });
+    });
     
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+  } catch (error) {
+    next(error);
+  }
+};
 
 
-
+*/

@@ -116,7 +116,7 @@ const handleSendMail = async (e)=>
     className="w-full bg-indigo-500 hover:bg-indigo-600/90 active:scale-95 transition py-2.5 rounded-full text-white font-medium"
     disabled={loading}
   >
-  { resetpassform?  (loading? "reseting password" : "Reset Password"):(loading? "To get link Please wait 2-5 minutes" : "Sent Reset Link") }
+  { resetpassform?  (loading? "Wait a minute" : "Reset Password"):(loading? "Sending Reset link" : "Sent Reset Link") }
 
   </button>
   <p className="text-center text-white mt-4">
