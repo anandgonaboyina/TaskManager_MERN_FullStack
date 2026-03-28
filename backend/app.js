@@ -4,13 +4,18 @@ const express = require("express");
 const app = express();  
 const cors = require('cors');
 
-app.use(cors({
-  origin: '*', 
-  methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization'
-}));
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+};
+app.use(cors(corsOptions));
 
-app.use(express.json())                                             // to access body otherwise undifined
+app.use(express.json())    // to access request body
 const taskRouter = require("./routes/taskRoutes.js")
 const mongoose = require("mongoose")
 const tasks = require("./models/Tasks.js")
