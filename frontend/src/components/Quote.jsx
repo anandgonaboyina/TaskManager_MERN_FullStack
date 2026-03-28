@@ -2,20 +2,25 @@ import {useState, useEffect} from "react"
 import axios from "axios"
 
 
-function getNewQuote({showRefresh=false, style, maxlength=30}) {
+function getNewQuote({showRefresh=false, style, maxlength=35}) {
     const [quote, setQuote] = useState("loading... quote")
     const [loading, setLoading] = useState(false)
     const getQuote = async ()=>
             {
-              try {
-                setLoading(true)
-                 const  res = await axios.get(`https://api.quotable.io/random?maxLength=${maxlength}`)
-                 setQuote(res.data.content)
-               }
-               catch(err)
-               {
-                setQuote("...")
-               }
+      try {
+        setLoading(true)
+            const res = await fetch('https://zenquotes.io/api/random/inspire');
+            const data = await res.json();
+            
+            // If the quote is too long for the UI, use a fallback or show it anyway
+            if (data.quote.length > maxlength) {
+                setQuote("Small steps lead to big destinations.");
+            } else {
+                setQuote(data.quote);
+            }
+        } catch (error) {
+            setQuote("Focus on the process, not the outcome.");
+        }
                finally
                {
                 setLoading(false)
