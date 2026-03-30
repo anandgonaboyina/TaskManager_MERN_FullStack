@@ -1,0 +1,55 @@
+TaskManager
+├── backend
+│   ├── Controller
+│   │   ├── authcontroller.js
+│   │   └── taskcontroller.js
+│   ├── app.js
+│   ├── middlewares
+│   │   └── authMiddleware.js
+│   ├── models
+│   │   ├── Tasks.js
+│   │   └── Users.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   │   └── taskRoutes.js
+│   └── utils
+│       ├── resetPassword.js
+│       └── sendEmail.js
+├── frontend
+│   ├── README.md
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── api
+│   │   │   └── axiosInstance.js
+│   │   │ 
+│   │   ├── components
+│   │   │   ├── AddTask.jsx
+│   │   │   ├── ConfirmModal.jsx
+│   │   │   ├── EditTaskModal.jsx
+│   │   │   ├── NavBar.jsx
+│   │   │   ├── PageLoader.jsx
+│   │   │   ├── Quote.jsx
+│   │   │   └── TaskCard.jsx
+│   │   ├── context
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── IntroPage.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── passwordResetPage.jsx
+│   │   └── services
+│   │       ├── authService.jsx
+│   │       └── taskServices.jsx
+│   └── vite.config.js
+└── structure.txt

@@ -117,7 +117,6 @@ const handleSendMail = async (e)=>
     disabled={loading}
   >
   { resetpassform?  (loading? "Wait a minute" : "Reset Password"):(loading? "Sending Reset link" : "Sent Reset Link") }
-
   </button>
   <p className="text-center text-white mt-4">
     Don’t have an account?  <Link to="/register" className="text-blue-500 underline">Register Now</Link>
